@@ -12,7 +12,7 @@ export default class Server {
   }
 
   private setupRoutes() {
-    this.app.get("/", (req, res) => {
+    this.app.get("/test", (req, res) => {
         res.status(200).json({
             message: "OK"
         })
