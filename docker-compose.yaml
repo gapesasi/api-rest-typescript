@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db: 
+    image: mysql/mysql-server:latest
+    container_name: api-mysql
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - api_mysql_data:/var/lib/mysql
+
+volumes:
+  api_mysql_data:
