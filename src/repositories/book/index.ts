@@ -20,7 +20,7 @@ export default class BookRepository implements IRepository<Book> {
         [id],
         (_err, rows) => {
           if (_err) reject(_err);
-          else resolve(rows?.[0]);
+          else resolve(rows[0] ?? null);
         }
       );
     });
