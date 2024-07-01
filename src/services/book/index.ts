@@ -1,5 +1,6 @@
 import Book from "../../models/book";
 import IRepository from "../../repositories/params";
+import NotFoundError from "../../utils/error/not-found-error";
 
 export default class BookService {
   private bookRepo: IRepository<Book>;
@@ -9,42 +10,34 @@ export default class BookService {
   }
 
   async findAll() {
-    try {
-      return await this.bookRepo.findAll();
-    } catch (error) {
-      throw error;
-    }
+    return await this.bookRepo.findAll();
   }
 
   async findById(id: number) {
-    try {
-      return await this.bookRepo.findById(id);
-    } catch (error) {
-      throw error;
+    const book = await this.bookRepo.findById(id);
+    if (!book) {
+      throw new NotFoundError("Could not find book with id given");
     }
+    return book;
   }
 
   async create(book: Book) {
-    try {
-      return await this.bookRepo.create(book);
-    } catch (error) {
-      throw error;
-    }
+    return await this.bookRepo.create(book);
   }
 
   async update(book: Book) {
-    try {
-      return await this.bookRepo.update(book);
-    } catch (error) {
-      throw error;
+    const updatedRows = await this.bookRepo.update(book);
+    if (updatedRows == 0) {
+      throw new NotFoundError("Could not find book with id given");
     }
+    return updatedRows;
   }
 
   async delete(id: number) {
-    try {
-      return await this.bookRepo.delete(id);
-    } catch (error) {
-      throw error;
+    const updatedRows = await this.bookRepo.delete(id);
+    if (updatedRows == 0) {
+      throw new NotFoundError("Could not find book with id given");
     }
+    return updatedRows;
   }
 }
