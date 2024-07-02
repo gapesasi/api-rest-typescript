@@ -4,9 +4,8 @@
   "description": "An simple API REST using Typescript + MySQL + Jest",
   "main": "src/index.ts",
   "scripts": {
-    "start:dev": "ts-node-dev --files -H -T ./src/index.ts",
-    "build": "tsc -w",
-    "start": "node index.js",
+    "start": "ts-node-dev --files -H -T ./src/index.ts",
+    "migrate": "ts-node ./src/database/migrate.ts",
     "test": "jest",
     "docker": "docker-compose up"
   },
