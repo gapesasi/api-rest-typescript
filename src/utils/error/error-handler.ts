@@ -3,7 +3,9 @@ import NotFoundError from "./not-found-error";
 import ValidationError from "./validation-error";
 import { HttpStatusCode } from "../../controllers/protocols";
 
-export default function handleError(error: Error, res: Response) {
+export default function handleError(error: any, res: Response) {
+  console.error(error);
+  
   if (error instanceof NotFoundError) {
     return res
       .status(HttpStatusCode.BAD_REQUEST)
