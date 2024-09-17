@@ -1,0 +1,289 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Typescript API Swagger",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3333"
+      }
+    ],
+    "tags": [
+      {
+        "name": "books"
+      }
+    ],
+    "paths": {
+      "/books": {
+        "get": {
+          "tags": [
+            "books"
+          ],
+          "summary": "Return all saved books",
+          "operationId": "getAllBooks",
+          "responses": {
+            "200": {
+              "description": "Books returned with success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "items": {
+                      "$ref": "#/components/schemas/Book"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "books"
+          ],
+          "summary": "Create a new book",
+          "operationId": "createBook",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBook"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Book created with success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Book"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/books/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Book to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "get": {
+          "tags": [
+            "books"
+          ],
+          "summary": "Return saved book from ID",
+          "operationId": "getBookById",
+          "responses": {
+            "200": {
+              "description": "Book returned with success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Book"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Could not find book with id given"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "books"
+          ],
+          "summary": "Update Book By Id",
+          "operationId": "updateBook",
+          "requestBody": {
+            "description": "Parameters to update the book",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBook"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Book updated with success",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Book updated successfully"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Could not find book with id given"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "books"
+          ],
+          "summary": "Delete Book By Id",
+          "operationId": "deleteBook",
+          "responses": {
+            "200": {
+              "description": "Book deleted with success",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Book deleted successfully"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Could not find book with id given"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Book": {
+          "description": "Book Object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/CreateBook"
+            },
+            {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                }
+              }
+            }
+          ]
+        },
+        "CreateBook": {
+          "description": "Book object that needs to be added to the list",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "Test Book"
+            },
+            "author": {
+              "type": "string",
+              "example": "Test Author"
+            },
+            "summary": {
+              "type": "string",
+              "example": "The book is a test Book written by the Test Author"
+            },
+            "pages": {
+              "type": "integer",
+              "example": 200
+            }
+          }
+        }
+      },
+      "requestBodies": {
+        "CreateBook": {
+          "description": "Book object that needs to be added to the list",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBook"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
