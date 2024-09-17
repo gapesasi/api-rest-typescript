@@ -1,6 +1,8 @@
 import express from "express";
 import { createServer, Server as HttpServer } from "http";
-import { router } from "./routes";
+import { router as booksRouter } from "./routes";
+import * as swaggerDocument from "./swagger.json";
+import swaggerUi from "swagger-ui-express";
 
 export default class Server {
   public app: express.Application;
@@ -24,12 +26,18 @@ export default class Server {
       });
     });
 
-    this.app.use("/", router);
+    this.app.use("/books", booksRouter);
+
+    this.app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
 
   public start(port: number) {
     this.server.listen(port, () => {
       console.log(`🚀 App is running on port ${port}`);
     });
+  }
+
+  public close() {
+    this.server.close();
   }
 }
