@@ -4,12 +4,15 @@
   "description": "An simple API REST using Typescript + MySQL + Jest",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node-dev --files -H -T ./src/index.ts",
-    "migrate": "ts-node ./src/database/migrate.ts",
+    "start:dev": "ts-node-dev --files -H -T ./src/index.ts",
+    "start:prod": "node ./dist/src/index.js",
+    "migrate": "node ./dist/src/database/migrate.js",
     "test": "jest",
-    "docker": "docker-compose up"
+    "docker": "docker-compose up",
+    "build": "tsc"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "mysql2": "^3.10.1",
     "swagger-ui-express": "^5.0.1"
