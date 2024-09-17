@@ -1,15 +1,37 @@
-version: '3.1'
+version: "3.8"
 services:
-  db: 
+  server:
+    container_name: api-server
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      DATABASE_HOST: db
+    ports:
+      - 3000:3000
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+
+  db:
     image: mysql
     container_name: api-mysql
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_DATABASE: api_typescript
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "3306:3306"
+    networks:
+      - public
     volumes:
       - api_mysql_data:/var/lib/mysql
 
+networks:
+  public:
+  private:
 volumes:
   api_mysql_data:
